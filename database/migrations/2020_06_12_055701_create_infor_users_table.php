@@ -13,10 +13,17 @@ class CreateInforUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('infor_users', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        if(Schema::hasTable('users')){
+            Schema::create('infor_users', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->string('first_name');
+                $table->string('last_name');
+                $table->string('phone');
+                $table->timestamps();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            });
+        }
     }
 
     /**

@@ -14,12 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('page.doashboard');
+    return view('home');
 });
 
-Route::get('/login', function () {
-    return view('login.login');
-});
-Route::get('/register', function () {
+
+
+Route::get('/page/register', function () {
     return view('login.register');
 });
+Route::get('/logout', 'HomeController@logout')->name('logout');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@doashboard')->name('doashboard');
+Route::get('/doashboard', 'HomeController@doashboard')->name('doashboard');
+
