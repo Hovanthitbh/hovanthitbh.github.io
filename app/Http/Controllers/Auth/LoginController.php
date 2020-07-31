@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OTPMail;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Controllers\Auth\Socialite;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -28,6 +33,18 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    protected function attemptLogin(Request $request)
+    {
+
+        $result = $this->guard()->attempt(
+            $this->credentials($request), $request->filled('remember')
+        );
+        if($result){
+            auth()->user()->sendOTP();
+        }
+        return $result;
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -36,5 +53,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+//        $this->middleware('TwoFA')->except('home');
+//        $this->middleware('TwoFA', ['except' => ['', 'verifyOTP']]);
     }
 }

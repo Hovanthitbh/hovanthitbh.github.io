@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','verified']);
     }
 
     /**
@@ -32,6 +32,7 @@ class HomeController extends Controller
     }
 
     public function  logout(){
+//        session_destroy();
         Auth::logout();
         return view('auth.login');
     }

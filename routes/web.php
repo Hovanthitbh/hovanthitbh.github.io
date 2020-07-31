@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\TwoFA;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
+Route::get('/', function () {
+    return view('page.doashboard');
+})->name('home');
 
 
 Route::get('/page/register', function () {
@@ -24,8 +25,17 @@ Route::get('/page/register', function () {
 });
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
-Auth::routes();
+Route::get('verifyOTP', 'VerifyOTPController@showVerifyPage')->name('verify');
+Route::post('verifyOTP', 'VerifyOTPController@verify')->name('postVerify');
 
-Route::get('/home', 'HomeController@doashboard')->name('doashboard');
+Auth::routes(['verify'=>true]);
+    Route::get('profile', function () {
+})->middleware('verified');
 Route::get('/doashboard', 'HomeController@doashboard')->name('doashboard');
+
+Route::get('auth/facebook', 'SocialiteController@redirectToFacebook')->name('auth.facebook');
+Route::get('auth/facebook/callback', 'SocialiteController@handleFacebookCallback');
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/home', 'HomeController@doashboard');
+});
 

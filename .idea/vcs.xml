@@ -4,5 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/handuynew.github.io" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/hovanthitbh.github.io" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/rms" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/toiec" vcs="Git" />
   </component>
 </project>
